@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xamarin-CustomBadge", "Xamarin-CustomBadge.csproj", "{C46A23E4-32A1-44D2-A635-947E8576079B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|iPhoneSimulator = Debug|iPhoneSimulator
+		Release|iPhoneSimulator = Release|iPhoneSimulator
+		Debug|iPhone = Debug|iPhone
+		Release|iPhone = Release|iPhone
+		Ad-Hoc|iPhone = Ad-Hoc|iPhone
+		AppStore|iPhone = AppStore|iPhone
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C46A23E4-32A1-44D2-A635-947E8576079B}.Ad-Hoc|iPhone.ActiveCfg = Ad-Hoc|iPhone
+		{C46A23E4-32A1-44D2-A635-947E8576079B}.Ad-Hoc|iPhone.Build.0 = Ad-Hoc|iPhone
+		{C46A23E4-32A1-44D2-A635-947E8576079B}.AppStore|iPhone.ActiveCfg = AppStore|iPhone
+		{C46A23E4-32A1-44D2-A635-947E8576079B}.AppStore|iPhone.Build.0 = AppStore|iPhone
+		{C46A23E4-32A1-44D2-A635-947E8576079B}.Debug|iPhone.ActiveCfg = Debug|iPhone
+		{C46A23E4-32A1-44D2-A635-947E8576079B}.Debug|iPhone.Build.0 = Debug|iPhone
+		{C46A23E4-32A1-44D2-A635-947E8576079B}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator
+		{C46A23E4-32A1-44D2-A635-947E8576079B}.Debug|iPhoneSimulator.Build.0 = Debug|iPhoneSimulator
+		{C46A23E4-32A1-44D2-A635-947E8576079B}.Release|iPhone.ActiveCfg = Release|iPhone
+		{C46A23E4-32A1-44D2-A635-947E8576079B}.Release|iPhone.Build.0 = Release|iPhone
+		{C46A23E4-32A1-44D2-A635-947E8576079B}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
+		{C46A23E4-32A1-44D2-A635-947E8576079B}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = Xamarin-CustomBadge.csproj
+	EndGlobalSection
+EndGlobal
