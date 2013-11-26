@@ -8,75 +8,94 @@ namespace XamarinCustomBadge
 {
 	public class CustomBadge:UIView
 	{
-		public CustomBadge ()
+		const float M_PI = (float)Math.PI;
+
+		public CustomBadge (string badgeText, 
+		                    UIColor textColor, 
+		                    UIFont  font,
+		                    UIColor frameColor,
+		                    UIColor insetColor,
+		                    float scaleFactor,
+		                    bool frame,
+		                    bool shining)
 		{
 		
 			Frame = new System.Drawing.RectangleF (0, 0, 25, 25);
 			ContentScaleFactor = UIScreen.MainScreen.Scale;
 			BackgroundColor = UIColor.Clear;
-			BadgeTextColor = UIColor.White;
-			BadgeFont = UIFont.BoldSystemFontOfSize (12);
-			BadgeFrame = true;
-			BadgeFrameColor = UIColor.White;
-			BadgeInsetColor = UIColor.Red;
-			BadgeCornerRadius = 0.4f;
-			BadgeScaleFactor = 1.0f;
-			BadgeShining = false;
+			BadgeCornerRoundness = 0.4f;
+
+			this.BadgeTextColor = textColor;
+			this.BadgeFont = font;
+			this.BadgeFrame = frame;
+			this.BadgeFrameColor = frameColor;
+			this.BadgeInsetColor = insetColor;
+			this.BadgeCornerRoundness = 0.4f;
+			this.BadgeScaleFactor = scaleFactor;
+			this.BadgeShining = shining;
+			AutoBadgeSizeWithString (badgeText);
 	
 		}
 
-		public CustomBadge (string badgeText) : this ()
+		public CustomBadge (string badgeText) : this (badgeText, 
+			UIColor.White, 
+			UIFont.BoldSystemFontOfSize (12), 
+			UIColor.White, 
+			UIColor.Red, 
+			1f, 
+			true, 
+			true)
 		{
-			BadgeText = badgeText;
-			AutoBadgeSizeWithString (BadgeText);
 		}
+
+	
 
 		public string BadgeText {
 			get;
-			set;
+			private set;
 		}
 
 		public UIFont BadgeFont {
 			get;
-			set;
+			private set;
 		}
 
 		public UIColor BadgeTextColor {
 			get;
-			set;
+			private set;
 		}
 
 		public UIColor BadgeInsetColor {
 			get;
-			set;
+			private set;
 		}
 
 		public UIColor BadgeFrameColor {
 			get;
-			set;
+			private set;
 		}
 
 		public bool BadgeFrame {
 			get;
-			set;
+			private set;
 		}
 
 		public bool BadgeShining {
 			get;
-			set;
+			private set;
 		}
 
-		public float BadgeCornerRadius {
+		public float BadgeCornerRoundness {
 			get;
-			set;
+			private set;
 		}
 
 		public float BadgeScaleFactor {
 			get;
-			set;
+			private set;
 		}
 
-		void AutoBadgeSizeWithString (string badgeString)
+		public void AutoBadgeSizeWithString (string badgeString)
 		{
 			SizeF retValue;
 			float rectWidth, rectHeight;
@@ -129,7 +148,7 @@ namespace XamarinCustomBadge
 		void DrawRoundedRect (RectangleF rect, CGContext context)
 		{
 			context.SaveState ();
-			float radius = rect.GetMaxY () * BadgeCornerRadius;
+			float radius = rect.GetMaxY () * BadgeCornerRoundness;
 			float puffer = rect.GetMaxY () * 0.10f;
 			float maxX = rect.GetMaxX () - puffer;
 			float maxY = rect.GetMaxY () - puffer;
@@ -138,10 +157,10 @@ namespace XamarinCustomBadge
 
 			context.BeginPath ();
 			context.SetFillColor (BadgeInsetColor.CGColor);
-			context.AddArc (maxX - radius, minY + radius, radius, (float)Math.PI + ((float)Math.PI / 2f), 0f, false);
-			context.AddArc (maxX - radius, maxY - radius, radius, 0, (float)Math.PI / 2f, false);
-			context.AddArc (minX + radius, maxY - radius, radius, (float)Math.PI / 2f, (float)Math.PI, false);
-			context.AddArc (minX + radius, minY + radius, radius, (float)Math.PI, (float)Math.PI + ((float)Math.PI / 2f), false);
+			context.AddArc (maxX - radius, minY + radius, radius, M_PI + (M_PI / 2f), 0f, false);
+			context.AddArc (maxX - radius, maxY - radius, radius, 0, M_PI / 2f, false);
+			context.AddArc (minX + radius, maxY - radius, radius, M_PI / 2f, M_PI, false);
+			context.AddArc (minX + radius, minY + radius, radius, M_PI, M_PI + (M_PI / 2f), false);
 			context.SetShadowWithColor (new SizeF (1, 1), 3, UIColor.Black.CGColor);
 			context.FillPath ();
 			context.RestoreState ();
@@ -151,12 +170,67 @@ namespace XamarinCustomBadge
 
 		void DrawShine (RectangleF rect, CGContext context)
 		{
-			//TODO
+			context.SaveState ();
+			float radius = rect.GetMaxY () * BadgeCornerRoundness;
+			float puffer = rect.GetMaxY () * 0.10f;
+			float maxX = rect.GetMaxX () - puffer;
+			float maxY = rect.GetMaxY () - puffer;
+			float minX = rect.GetMinX () + puffer;
+			float minY = rect.GetMinY () + puffer;
+
+			context.BeginPath ();
+			context.AddArc (maxX - radius, minY + radius, radius, M_PI + (M_PI / 2f), 0f, false);
+			context.AddArc (maxX - radius, maxY - radius, radius, 0, M_PI / 2f, false);
+			context.AddArc (minX + radius, maxY - radius, radius, M_PI / 2f, M_PI, false);
+			context.AddArc (minX + radius, minY + radius, radius, M_PI, M_PI + (M_PI / 2f), false);
+			context.Clip ();
+
+			var locations = new []{ 0f, 0.4f };
+			var components = new []{ 0.92f, 0.92f, 0.92f, 1.0f, 0.82f, 0.82f, 0.82f, 0.4f };
+			using (var cspace = CGColorSpace.CreateDeviceRGB ())
+			using (var gradient = new CGGradient (cspace, components, locations)) {
+
+				var sPoint = new PointF (0, 0);
+				var ePoint = new PointF (0, maxY);
+				context.DrawLinearGradient (gradient, sPoint, ePoint, (CGGradientDrawingOptions)0);
+			}
+			context.RestoreState ();
+
 		}
 
 		void DrawFrame (RectangleF rect, CGContext context)
 		{
-			//TODO
+			float radius = rect.GetMaxY () * BadgeCornerRoundness;
+			float puffer = rect.GetMaxY () * 0.10f;
+			float maxX = rect.GetMaxX () - puffer;
+			float maxY = rect.GetMaxY () - puffer;
+			float minX = rect.GetMinX () + puffer;
+			float minY = rect.GetMinY () + puffer;
+			context.BeginPath ();
+			float lineSize = 2;
+			if (BadgeScaleFactor > 1) {
+				lineSize += BadgeScaleFactor * 0.25f;
+			}
+			context.SetLineWidth (lineSize);
+			context.SetStrokeColor (BadgeFrameColor.CGColor);
+
+			context.AddArc (maxX - radius, minY + radius, radius, M_PI + (M_PI / 2f), 0f, false);
+			context.AddArc (maxX - radius, maxY - radius, radius, 0, M_PI / 2f, false);
+			context.AddArc (minX + radius, maxY - radius, radius, M_PI / 2f, M_PI, false);
+			context.AddArc (minX + radius, minY + radius, radius, M_PI, M_PI + (M_PI / 2f), false);
+			context.ClosePath ();
+			context.StrokePath ();
+
+			/*
+
+        CGContextAddArc(context, maxX-radius, minY+radius, radius, M_PI+(M_PI/2), 0, 0);
+        CGContextAddArc(context, maxX-radius, maxY-radius, radius, 0, M_PI/2, 0);
+        CGContextAddArc(context, minX+radius, maxY-radius, radius, M_PI/2, M_PI, 0);
+        CGContextAddArc(context, minX+radius, minY+radius, radius, M_PI, M_PI+M_PI/2, 0);
+        CGContextClosePath(context);
+        CGContextStrokePath(context);
+
+			*/
 		}
 	}
 }
