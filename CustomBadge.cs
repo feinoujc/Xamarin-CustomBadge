@@ -220,17 +220,6 @@ namespace XamarinCustomBadge
 			context.AddArc (minX + radius, minY + radius, radius, M_PI, M_PI + (M_PI / 2f), false);
 			context.ClosePath ();
 			context.StrokePath ();
-
-			/*
-
-        CGContextAddArc(context, maxX-radius, minY+radius, radius, M_PI+(M_PI/2), 0, 0);
-        CGContextAddArc(context, maxX-radius, maxY-radius, radius, 0, M_PI/2, 0);
-        CGContextAddArc(context, minX+radius, maxY-radius, radius, M_PI/2, M_PI, 0);
-        CGContextAddArc(context, minX+radius, minY+radius, radius, M_PI, M_PI+M_PI/2, 0);
-        CGContextClosePath(context);
-        CGContextStrokePath(context);
-
-			*/
 		}
 	}
 }
